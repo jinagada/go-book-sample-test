@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	//"book-sample-tst/ch2/lib"
 	mylib "go-book-sample-test/ch2/lib"
 )
 
