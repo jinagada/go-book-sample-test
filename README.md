@@ -3,3 +3,6 @@
 ## 테스트 환경
 - go version go1.17.6 darwin/amd64
 - GoLand 2021.3.2
+
+## 샘플 소스
+- https://github.com/gilbutITbook/006806
