@@ -47,3 +47,19 @@ func runReduce(tokenPositions intermediate) summary {
 	}
 	return s
 }
+
+func runConcurrentReduce(in intermediate) summary {
+	s := summary{m: make(map[string]map[string]int)}
+	var wg sync.WaitGroup
+	for token, value := range in {
+		wg.Add(1)
+		go func(token string, positions []scanner.Position) {
+			defer wg.Done()
+			s.mu.Lock()
+			s.m[token] = reducer(token, positions)
+			s.mu.Unlock()
+		}(token, value)
+	}
+	wg.Wait()
+	return s
+}

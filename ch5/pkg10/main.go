@@ -42,6 +42,11 @@ func mainOne() {
 	fmt.Println(runReduce(collect(runMap(find(parseArgs())))))
 }
 
+func mainMulti() {
+	fmt.Println(runConcurrentReduce(collect(runConcurrentMap(find(parseArgs())))))
+}
+
 func main() {
-	mainOne()
+	//mainOne()
+	mainMulti()
 }

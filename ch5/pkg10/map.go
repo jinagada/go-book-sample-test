@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"os"
+	"runtime"
+	"sync"
 	"text/scanner"
 )
 
@@ -37,6 +39,25 @@ func runMap(paths <-chan string) <-chan partial {
 		for path := range paths {
 			mapper(path, out)
 		}
+		close(out)
+	}()
+	return out
+}
+
+func runConcurrentMap(paths <-chan string) <-chan partial {
+	out := make(chan partial, BufSize)
+	var wg sync.WaitGroup
+	for i := 0; i < runtime.NumCPU(); i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			for path := range paths {
+				mapper(path, out)
+			}
+		}()
+	}
+	go func() {
+		wg.Wait()
 		close(out)
 	}()
 	return out
