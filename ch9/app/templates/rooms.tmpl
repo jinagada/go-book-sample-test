@@ -1,0 +1,55 @@
+<div class="page-header">
+    <h4>채팅방 목록</h4>
+</div>
+<div id="rooms" class="list-group">
+</div>
+<form class="input-group">
+    <input id="room-name" type="text" class="form-control" placeholder="방 이름 입력">
+    <span class="input-group-btn">
+        <button id="create-room" class="btn btn-default" type="submit">방 생성</button>
+    </span>
+</form>
+<script>
+    let currentRoomId = null;
+    let createRoomBox = function(room) {
+        $("#rooms").prepend(
+            $("<a>").attr("id", room.id)
+                .attr("href", "#")
+                .text(room.name)
+                .addClass("list-group-item")
+                .bind("click", function(e) {
+                    e.preventDefault();
+                    let roomId = $(this).attr("id");
+                    if (currentRoomId) {
+                        $("#rooms #" + currentRoomId).removeClass("active");
+                    }
+                    $("#rooms #" + roomId).addClass("active");
+                    enterRoom(roomId);
+                    currentRoomId = roomId;
+                })
+        );
+        $("#room-name").val("");
+        activateRoom(room.id);
+    };
+    let activateRoom = function(roomId) {
+        if (currentRoomId) {
+            $("#rooms #" + currentRoomId).removeClass("active");
+        }
+        $("#rooms #" + roomId).addClass("active");
+        enterRoom(roomId);
+        currentRoomId = roomId;
+    };
+    $(document).ready(function() {
+        $("#create-room").click(function() {
+            $.post("/rooms", { name: $("#room-name").val() }, function(data, status) {
+                let room = JSON.parse(data);
+                createRoomBox(room);
+            });
+        });
+        $.get("/rooms", function(rooms) {
+            for (let i = 0; i < rooms.length; i++) {
+                createRoomBox(rooms[i]);
+            }
+        });
+    });
+</script>
