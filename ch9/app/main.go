@@ -3,16 +3,22 @@ package main
 import (
 	"github.com/goincremental/negroni-sessions"
 	"github.com/goincremental/negroni-sessions/cookiestore"
+	"github.com/gorilla/websocket"
 	"github.com/julienschmidt/httprouter"
 	"github.com/unrolled/render"
 	"github.com/urfave/negroni"
 	"gopkg.in/mgo.v2"
+	"log"
 	"net/http"
 )
 
 var (
 	renderer     *render.Render
 	mongoSession *mgo.Session
+	upgrader     = &websocket.Upgrader{
+		ReadBufferSize:  socketBufferSize,
+		WriteBufferSize: socketBufferSize,
+	}
 )
 
 func init() {
@@ -25,8 +31,9 @@ func init() {
 }
 
 const (
-	sessionKey    = "simple_chat_session"
-	sessionSecret = "simple_chat_session_secret"
+	sessionKey       = "simple_chat_session"
+	sessionSecret    = "simple_chat_session_secret"
+	socketBufferSize = 1024
 )
 
 func main() {
@@ -48,6 +55,14 @@ func main() {
 	router.POST("/rooms", createRoom)
 	router.GET("/rooms", retrieveRooms)
 	router.GET("/rooms/:id/messages", retrieveMessages)
+	router.GET("/ws/:room_id", func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+		socket, err := upgrader.Upgrade(w, r, nil)
+		if err != nil {
+			log.Fatal("ServerHTTP: ", err)
+			return
+		}
+		newClient(socket, ps.ByName("room_id"), GetCurrentUser(r))
+	})
 
 	n := negroni.Classic()
 	store := cookiestore.New([]byte(sessionSecret))
