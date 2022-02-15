@@ -7,7 +7,24 @@ module:testrunner
 # module:jobs
 
 
-GET     /                                       App.Index
+GET     /                                       Home.Index
+
+## Post
+GET     /posts                                  Post.Index
+POST    /posts                                  Post.Create
+GET     /posts/new                              Post.New
+GET     /posts/:id                              Post.Show
+PUT     /posts/:id                              Post.Update
+POST    /posts/:id                              Post.Update
+GET     /posts/:id/edit                         Post.Edit
+GET     /posts/:id/delete                       Post.Destroy
+DELETE  /posts/:id                              Post.Destroy
+
+## Comment
+POST    /posts/:postId/comments                 Comment.Create
+GET     /posts/:postId/comments/:id/delete      Comment.Destroy
+# DELETE 부분이 있는 경우 GET 부분의 URL로 매핑이 되지 않아서 주석처리 함
+# DELETE  /posts/:postId/comments/:id             Comment.Destroy
 
 # Ignore favicon requests
 GET     /favicon.ico                            404
@@ -23,4 +40,4 @@ GET     /public/*filepath                       Static.Serve("public")
 #
 # For rapid development uncomment the following to add new controller.action endpoints
 # without having to add them to the routes table.
-# *       /:controller/:action                    :controller.:action
+*       /:controller/:action                    :controller.:action

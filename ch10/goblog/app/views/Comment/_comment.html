@@ -1,0 +1,11 @@
+{{$post := .post}}
+{{range .post.Comments}}
+<p>
+    <mark>
+        <b>{{.Commenter}}</b>
+    </mark>
+    {{.Body}}
+    <small>({{formatDate .CreatedAt}})</small>
+    <a href='{{url "Comment.Destroy" $post.Id .Id}}'>Destroy</a>
+</p>
+{{end}}
