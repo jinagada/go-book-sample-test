@@ -26,6 +26,12 @@ GET     /posts/:postId/comments/:id/delete      Comment.Destroy
 # DELETE 부분이 있는 경우 GET 부분의 URL로 매핑이 되지 않아서 주석처리 함
 # DELETE  /posts/:postId/comments/:id             Comment.Destroy
 
+## App
+GET     /login                                  App.Login
+POST    /login                                  App.CreateSession
+GET     /logout                                 App.DestorySession
+DELETE  /logout                                 App.DestorySession
+
 # Ignore favicon requests
 GET     /favicon.ico                            404
 
