@@ -18,7 +18,8 @@ PUT     /posts/:id                              Post.Update
 POST    /posts/:id                              Post.Update
 GET     /posts/:id/edit                         Post.Edit
 GET     /posts/:id/delete                       Post.Destroy
-DELETE  /posts/:id                              Post.Destroy
+# DELETE 부분이 있는 경우 GET 부분의 URL로 매핑이 되지 않아서 주석처리 함
+# DELETE  /posts/:id                              Post.Destroy
 
 ## Comment
 POST    /posts/:postId/comments                 Comment.Create
@@ -30,7 +31,8 @@ GET     /posts/:postId/comments/:id/delete      Comment.Destroy
 GET     /login                                  App.Login
 POST    /login                                  App.CreateSession
 GET     /logout                                 App.DestorySession
-DELETE  /logout                                 App.DestorySession
+# DELETE 부분이 있는 경우 GET 부분의 URL로 매핑이 되지 않아서 주석처리 함
+# DELETE  /logout                                 App.DestorySession
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

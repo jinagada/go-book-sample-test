@@ -25,3 +25,5 @@ go.work
 *.ipr
 *.iws
 .idea/
+target/
+none

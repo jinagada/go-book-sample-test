@@ -30,7 +30,6 @@ require (
 	github.com/stretchr/testify v1.4.0 // indirect
 	github.com/stretchr/tracer v0.0.0-20140124184152-66d3696bba97 // indirect
 	github.com/ugorji/go/codec v1.2.6 // indirect
-	golang.org/x/crypto v0.0.0-20220214200702-86341886e292 // indirect
 	golang.org/x/sys v0.0.0-20211216021012-1d35b9e2eb4e // indirect
 	gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405 // indirect
 	gopkg.in/yaml.v2 v2.2.2 // indirect

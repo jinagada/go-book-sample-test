@@ -7,7 +7,33 @@ import (
 )
 
 type Comment struct {
-	GormController
+	App
+}
+
+func (c Comment) CheckUser() revel.Result {
+	if c.MethodName != "Destory" {
+		return nil
+	}
+	//if c.CurrentUser == nil {
+	//	c.Flash.Error("Please login first")
+	//	return c.Redirect(App.Login)
+	//}
+	//if c.CurrentUser.Role != "admin" {
+	//	c.Response.Status = 401
+	//	c.Flash.Error("You are not admin")
+	//	return c.Redirect(App.Login)
+	//}
+	currentUser, ok := c.ViewArgs["currentUser"].(*models.User)
+	if !ok {
+		c.Flash.Error("Please login first")
+		return c.Redirect(App.Login)
+	}
+	if ok && currentUser != nil && currentUser.Role != "admin" {
+		c.Response.Status = 401
+		c.Flash.Error("You are not admin")
+		return c.Redirect(App.Login)
+	}
+	return nil
 }
 
 func (c Comment) Create(postId int, body, commenter string) revel.Result {
